@@ -121,7 +121,7 @@ public:
             boost::unique_lock<boost::mutex> oLock(m_oMutex);
             if(!m_u32Level)
             {
-                if(m_oConditionReadPossible.wait_for(oLock, boost::chrono::milliseconds(u32Timeout_ms)) == boost::cv_status::timeout)
+                if(!m_oConditionReadPossible.timed_wait(oLock, boost::posix_time::milliseconds(u32Timeout_ms)) )
                     return -1;
             }
 
@@ -138,7 +138,7 @@ public:
             boost::unique_lock<boost::mutex> oLock(m_oMutex);
             if(m_u32Level >= m_vTCircularBuffer.size())
             {
-                if(m_oConditionWritePossible.wait_for(oLock, boost::chrono::milliseconds(u32Timeout_ms)) == boost::cv_status::timeout)
+                if(!m_oConditionWritePossible.timed_wait(oLock, boost::posix_time::milliseconds(u32Timeout_ms)) )
                     return -1;
             }
 
