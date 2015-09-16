@@ -151,6 +151,10 @@ public:
     void elementRead()
     {
         boost::unique_lock<boost::mutex> oLock(m_oMutex);
+        
+        //Clear the element contents
+        getElementPointer(m_u32ReadIndex)->setEmpty();
+            
         m_u32Level--;
         m_u32ReadIndex++;
 
