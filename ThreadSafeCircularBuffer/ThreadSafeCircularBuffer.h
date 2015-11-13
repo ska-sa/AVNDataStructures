@@ -139,7 +139,25 @@ public:
             if(m_u32Level >= m_vTCircularBuffer.size())
             {
                 if(!m_oConditionWritePossible.timed_wait(oLock, boost::posix_time::milliseconds(u32Timeout_ms)) )
+                {
                     return -1;
+                }
+            }
+
+            i32NextWriteIndex = m_u32WriteIndex ;
+        }
+
+        return i32NextWriteIndex;
+    }
+
+    int32_t tryToGetNextWriteIndex()
+    {
+        int32_t i32NextWriteIndex;
+        {
+            boost::unique_lock<boost::mutex> oLock(m_oMutex);
+            if(m_u32Level >= m_vTCircularBuffer.size())
+            {
+                return -1;
             }
 
             i32NextWriteIndex = m_u32WriteIndex ;
