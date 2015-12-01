@@ -13,9 +13,11 @@ typedef unsigned __int64 uint64_t;
 #endif
 
 //Library includes
+#ifndef Q_MOC_RUN //Qt's MOC and Boost have some issues don't let MOC process boost headers
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition_variable.hpp>
+#endif
 
 using namespace std;
 
